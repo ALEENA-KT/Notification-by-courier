@@ -1,0 +1,26 @@
+import services.Courier;
+import services.SendService;
+import models.SendRequestBody;
+import models.SendResponseBody;
+import com.google.gson.Gson;
+import java.util.Map;
+
+public static void main(String[] args) {
+  Courier.init("dk_prod_E75ZGYJ3AM47N2MD3RM73RTD8QCE");
+
+  SendRequestBody request = new SendRequestBody();
+  request.setEvent("AHF88MF8A04GTAGC0NB4V62JMRGH");
+  request.setRecipient("7338c58b-68b5-4dfc-a2ad-417f991520d8");
+
+  Gson gson = new Gson(); // Convert Java Objects into JSON and back
+
+  Map profileMap = gson.fromJson("{}", Map.class);
+  request.setProfile(new Gson().toJson(profileMap));
+
+  Map dataMap = gson.fromJson("{}", Map.class);
+  request.setData(new Gson().toJson(dataMap));
+
+  SendResponseBody response = new SendService().send(request);
+
+  System.out.println(response);
+}
